@@ -1,0 +1,72 @@
+@extends('template.coreTemplate')
+@section('title', 'Ubah Data Npwp')
+@section('breadcrumb')
+   <div class="section-header-breadcrumb">
+      <div class="breadcrumb-item active"><a href="/">Dashboard</a></div>
+      <div class="breadcrumb-item active"><a href="{{ route('admin.master-npwp.index') }}">Master Npwp</a></div>
+      <div class="breadcrumb-item">Ubah Data Npwp</div>
+   </div>
+@endsection
+@section('content')
+   <div class="row">
+      <div class="col-22 col-md-12 col-lg-12">
+         <div class="card">
+            <div class="card-header">
+               <h4>Input Data</h4>
+               @if(session('error'))
+                  <div class="alert alert-danger alert-dismissible show fade">
+                     <div class="alert-body">
+                     <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                     </button>
+                        {{ session('error') }}
+                     </div>
+                  </div>
+               @endif
+            </div>
+            <div class="card-body">
+            <form action="{{ route('admin.master-npwp.update', $npwp->id) }}" method="post">
+            @csrf
+            @method('put')
+               <div class="form-group row">
+                  <label for="npwp" class="col-sm-2 col-form-label">Npwp</label>
+                  <div class="col-sm-10">
+                     <input type="text" class="form-control @error('npwp') is-invalid @enderror" name="npwp" placeholder="Npwp" value="{{ $npwp->npwp }}">
+                     @error('npwp')
+                        <div class="invalid-feedback">
+                           {{ $message }}
+                        </div>
+                     @enderror
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+                  <div class="col-sm-10">
+                     <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama Npwp" value="{{ $npwp->nama }}">
+                     @error('nama')
+                        <div class="invalid-feedback">
+                           {{ $message }}
+                        </div>
+                     @enderror
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                  <div class="col-sm-10">
+                     <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" placeholder="Alamat Npwp" value="{{ $npwp->alamat }}">
+                     @error('alamat')
+                        <div class="invalid-feedback">
+                           {{ $message }}
+                        </div>
+                     @enderror
+                  </div>
+               </div>
+            </div>
+            <div class="card-footer">
+               <button type="submit" class="btn btn-success">Ubah</button>
+            </div>
+            </form>
+         </div>
+      </div>
+   </div>
+@endsection
