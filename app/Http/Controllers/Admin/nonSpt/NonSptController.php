@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\nonSpt;
 
+use App\Exports\NonSptExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReqNonSptController;
 use App\Imports\NonSptImport;
@@ -20,7 +21,11 @@ class NonSptController extends Controller
      */
     public function index()
     {
-        return \view('admin.nonSpt.index');
+        $nonSpt = NonSpt::orderBy('noBox', 'asc')->get();
+        $noBoxNonSpt = $nonSpt->pluck('noBox');
+        return \view('admin.nonSpt.index', [
+            'noBox' => \collect($noBoxNonSpt)->unique()
+        ]);
     }
 
     /**
@@ -87,7 +92,7 @@ class NonSptController extends Controller
     public function update(ReqNonSptController $request, NonSpt $nonSpt)
     {
         $nonSpt->update($request->except('_token'));
-        return \redirect()->route('admin.non-spt.index')->with('message', 'Data Non Berhasil Spt Diubah');
+        return \redirect()->route('admin.non-spt.index')->with('message', 'Data Non Spt Berhasil Diubah');
     }
 
     /**
@@ -149,5 +154,14 @@ class NonSptController extends Controller
         }
 
         return \redirect()->route('admin.non-spt.index')->with('message', 'Import Berhasil');
+    }
+
+    public function exportNonSpt(Request $request)
+    {
+        try {
+            return Excel::download(new NonSptExport($request->noBox), 'data_nonSPT_box_'.$request->noBox.'.xlsx');
+        } catch (Exception $e) {
+            return back()->withError('error'. $e->getMessage());
+        }
     }
 }

@@ -15,6 +15,7 @@ Route::post('/import/npwp', 'npwp\NpwpController@importNpwp')->name('npwp.import
 Route::resource('master/spt', 'spt\SptController');
 Route::get('/dt-spt', 'spt\SptController@dtSpt')->name('dt.spt');
 Route::post('import/spt', 'spt\SptController@import')->name('spt.import');
+Route::post('export/spt', 'spt\SptController@export')->name('spt.export');
 
 // * check NPWP
 Route::post('/spt/check/npwp', 'npwp\NpwpController@checkNpwp')->name('spt.checkAvailableNpwp');
@@ -26,6 +27,7 @@ Route::resource('pajak', 'taxType\TaxTypeController');
 Route::resource('master/non-spt', 'nonSpt\NonSptController');
 Route::get('/dt-nonSpt', 'nonSpt\NonSptController@dtNonSpt')->name('dt.nonSpt');
 Route::post('import/non-spt', 'nonSpt\NonSptController@importNonSpt')->name('non-spt.import');
+Route::post('export/non-spt', 'nonSpt\NonSptController@exportNonSpt')->name('non-spt.export');
 
 // * user
 Route::resource('user', 'user\UserController');

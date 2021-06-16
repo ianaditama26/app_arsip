@@ -17,7 +17,9 @@
                      Buat data spt
                   </a>
 
-                  <button class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Import data spt</button>
+                  <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Import data spt</button>
+
+                  <button class="btn btn-danger" data-toggle="modal" data-target="#modalExport">Export data spt</button>
                </div>
             </div>
             <div class="card-body">
@@ -72,6 +74,7 @@
 @endpush
 
 @push('scripts')
+   {{-- IMPORT --}}
    <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
       <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -95,6 +98,40 @@
          <div class="modal-footer bg-whitesmoke br">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-success">Import</button>
+            </form>
+         </div>
+      </div>
+      </div>
+   </div>
+   {{-- EXPORT --}}
+   <div class="modal fade" tabindex="-1" role="dialog" id="modalExport">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Emport Spt</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form action="{{ route('admin.spt.export') }}" method="post" enctype="multipart/form-data">
+            @csrf
+               <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Nomor box</label>
+                  <div class="col-sm-9">
+                     <select name="noBox" class="form-control" required>
+                        <option value=""></option>
+                        @foreach($noBox as $value)
+                           <option value="{{ $value }}">{{ $value }}</option>
+                        @endforeach
+                     </select>
+                  </div>
+               </div>
+            
+         </div>
+         <div class="modal-footer bg-whitesmoke br">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Export</button>
             </form>
          </div>
       </div>

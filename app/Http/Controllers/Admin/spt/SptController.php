@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin\spt;
 
+use App\Exports\SptExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReqSptController;
 use App\Imports\SptImport;
+use App\Models\NonSpt;
 use App\Models\Npwp;
 use App\Models\Spt;
 use App\Models\TaxType;
@@ -22,7 +24,11 @@ class SptController extends Controller
      */
     public function index()
     {
-        return view('admin.spt.index');
+        $spt = Spt::orderBy('noBox', 'asc')->get();
+        $noBoxSpt = $spt->pluck('noBox')->toArray();
+        return view('admin.spt.index', [
+            'noBox' => \array_unique($noBoxSpt) 
+        ]);
     }
 
     /**
@@ -160,6 +166,15 @@ class SptController extends Controller
 
         \session()->flash('message', 'Import Berhasil');
         return \redirect()->route('admin.spt.index');
+    }
+
+    public function export(Request $request)
+    {
+        try {
+            return Excel::download(new SptExport($request->noBox), 'dataSPT_box_'.$request->noBox.'.xlsx');
+        } catch (Exception $e) {
+            return back()->withError('error'. $e->getMessage());
+        }
     }
 
     public function checkNpwp(Request $request)
